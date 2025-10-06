@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ curriculo.nome }} - Currículo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header h2 {
+            font-size: 1.3em;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 0.9em;
+        }
+
+        .contact-info a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .contact-info a:hover {
+            opacity: 0.8;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .resumo {
+            line-height: 1.8;
+            color: #555;
+            font-size: 1.1em;
+        }
+
+        .habilidades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .habilidade {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            transition: transform 0.3s;
+        }
+
+        .habilidade:hover {
+            transform: translateY(-5px);
+        }
+
+        .experiencia, .formacao-item, .projeto {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .experiencia h3, .formacao-item h3, .projeto h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .experiencia h4, .formacao-item h4 {
+            color: #667eea;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .periodo {
+            color: #888;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .descricao, .tecnologias {
+            color: #555;
+            line-height: 1.6;
+            margin-top: 10px;
+        }
+
+        .tecnologias {
+            font-style: italic;
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .habilidades-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{ curriculo.nome }}</h1>
+            <h2>{{ curriculo.cargo }}</h2>
+            <div class="contact-info">
+                <span>{{ curriculo.email }}</span>
+                <span>{{ curriculo.telefone }}</span>
+                <a href="https://{{ curriculo.linkedin }}" target="_blank">LinkedIn</a>
+                <a href="https://{{ curriculo.github }}" target="_blank">GitHub</a>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2 class="section-title">Sobre Mim</h2>
+                <p class="resumo">{{ curriculo.resumo }}</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Habilidades</h2>
+                <div class="habilidades-grid">
+                    {% for habilidade in curriculo.habilidades %}
+                    <div class="habilidade">{{ habilidade }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Experiência Profissional</h2>
+                {% for exp in curriculo.experiencias %}
+                <div class="experiencia">
+                    <h3>{{ exp.cargo }}</h3>
+                    <h4>{{ exp.empresa }}</h4>
+                    <p class="periodo">{{ exp.periodo }}</p>
+                    <p class="descricao">{{ exp.descricao }}</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Formação Acadêmica</h2>
+                {% for form in curriculo.formacao %}
+                <div class="formacao-item">
+                    <h3>{{ form.curso }}</h3>
+                    <h4>{{ form.instituicao }}</h4>
+                    <p class="periodo">{{ form.periodo }} - {{ form.status }}</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Projetos</h2>
+                {% for projeto in curriculo.projetos %}
+                <div class="projeto">
+                    <h3>{{ projeto.nome }}</h3>
+                    <p class="descricao">{{ projeto.descricao }}</p>
+                    <p class="tecnologias">Tecnologias: {{ projeto.tecnologias }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
