@@ -2,7 +2,7 @@
 
 ## O que foi feito
 
-Criei uma aplicação web em Python com Flask que mostra meu currículo em uma página HTML bonita e responsiva.
+Criei uma aplicação web em Python com Flask que mostra meu currículo em uma página HTML supeeer bonita :) e responsiva.
 
 A aplicação foi containerizada com Docker para rodar em qualquer computador.
 
